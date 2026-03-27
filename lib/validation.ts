@@ -6,7 +6,7 @@ export const merchantSchema = z.object({
   phone: z.string().regex(/^[6-9]\d{9}$/, 'Invalid Indian phone number'),
   email: z.string().email('Invalid email'),
   category: z.enum(['food', 'grocery', 'fresh_meat', 'kids_clothing']),
-  subCategory: z.enum(['juice', 'biryani', 'snacks', 'breakfast', 'desserts', 'chinese', 'south_indian']).optional(),
+  subCategory: z.array(z.enum(['juice', 'biryani', 'snacks', 'breakfast', 'desserts', 'chinese', 'south_indian'])).optional(),
   fssai: z.object({
     number: z.string().length(14, 'FSSAI must be 14 digits'),
     expiryDate: z.string(),

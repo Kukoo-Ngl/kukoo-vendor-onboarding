@@ -7,7 +7,7 @@ export type Merchant = {
   phone: string;
   email: string;
   category: 'food' | 'grocery' | 'fresh_meat' | 'kids_clothing';
-  subCategory?: 'juice' | 'biryani' | 'snacks' | 'breakfast' | 'desserts' | 'chinese' | 'south_indian';
+  subCategory?: ('juice' | 'biryani' | 'snacks' | 'breakfast' | 'desserts' | 'chinese' | 'south_indian')[];
   fssai?: {
     number: string;
     expiryDate: string;

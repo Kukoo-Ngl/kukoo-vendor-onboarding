@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { merchantSchema, type MerchantFormData } from '@/lib/validation';
 import { createMerchant } from '@/lib/firestore';
 import { uploadMultipleFiles } from '@/lib/storage';
@@ -32,7 +33,29 @@ export default function MerchantForm() {
     reset,
   } = useForm<MerchantFormData>({
     resolver: zodResolver(merchantSchema),
+    defaultValues: {
+      businessName: '',
+      ownerName: '',
+      phone: '',
+      email: '',
+      address: '',
+      city: '',
+      pincode: '',
+      gst: '',
+      subCategory: [],
+    },
   });
+
+  const subCategory = watch('subCategory') ?? [];
+
+  const toggleSubCategory = useCallback((value: string) => {
+    type SubCat = 'juice' | 'biryani' | 'snacks' | 'breakfast' | 'desserts' | 'chinese' | 'south_indian';
+    const current = (watch('subCategory') ?? []) as SubCat[];
+    const updated = current.includes(value as SubCat)
+      ? current.filter((v) => v !== value)
+      : [...current, value as SubCat];
+    setValue('subCategory', updated);
+  }, [watch, setValue]);
 
   const category = watch('category');
 
@@ -165,7 +188,7 @@ export default function MerchantForm() {
                   <SelectTrigger id="category">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper" className="bg-white z-50">
                     <SelectItem value="food">Food</SelectItem>
                     <SelectItem value="grocery">Grocery</SelectItem>
                     <SelectItem value="fresh_meat">Fresh Meat</SelectItem>
@@ -176,20 +199,21 @@ export default function MerchantForm() {
 
               {category === 'food' && (
                 <div>
-                  <Label htmlFor="subCategory">Sub-Category</Label>
-                  <Select onValueChange={(value) => {
-                    const subCategoryValue = value as 'juice' | 'biryani' | 'snacks' | 'breakfast' | 'desserts' | 'chinese' | 'south_indian';
-                    setValue('subCategory', subCategoryValue);
-                  }}>
-                    <SelectTrigger id="subCategory">
-                      <SelectValue placeholder="Select sub-category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {FOOD_SUBCATEGORIES.map(sub => (
-                        <SelectItem key={sub} value={sub}>{sub}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Label>Sub-Category</Label>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    {FOOD_SUBCATEGORIES.map(sub => (
+                      <div key={sub} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`sub-${sub}`}
+                          checked={subCategory.includes(sub as never)}
+                          onCheckedChange={() => toggleSubCategory(sub)}
+                        />
+                        <Label htmlFor={`sub-${sub}`} className="font-normal capitalize cursor-pointer">
+                          {sub.replace('_', ' ')}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
