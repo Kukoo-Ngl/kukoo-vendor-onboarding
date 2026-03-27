@@ -183,7 +183,7 @@ export default function MerchantForm() {
                 <Label htmlFor="category">Category *</Label>
                 <Select onValueChange={(value) => {
                   const categoryValue = value as 'food' | 'grocery' | 'fresh_meat' | 'kids_clothing';
-                  setValue('category', categoryValue);
+                  setValue('category', categoryValue, { shouldValidate: true });
                 }}>
                   <SelectTrigger id="category">
                     <SelectValue placeholder="Select category" />
@@ -195,6 +195,7 @@ export default function MerchantForm() {
                     <SelectItem value="kids_clothing">Kids Clothing</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.category && <span className="text-red-500 text-sm">Please select a category</span>}
               </div>
 
               {category === 'food' && (
