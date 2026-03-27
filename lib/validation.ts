@@ -16,14 +16,6 @@ export const merchantSchema = z.object({
   city: z.string().min(1, 'City required'),
   pincode: z.string().length(6, 'Pincode must be 6 digits'),
   menuFiles: z.array(z.instanceof(File)).optional(),
-}).refine((data) => {
-  if (['food', 'grocery', 'fresh_meat'].includes(data.category)) {
-    return data.fssai?.number && data.fssai?.expiryDate;
-  }
-  return true;
-}, {
-  message: 'FSSAI required for food/grocery/fresh_meat',
-  path: ['fssai'],
 });
 
 export type MerchantFormData = z.infer<typeof merchantSchema>;

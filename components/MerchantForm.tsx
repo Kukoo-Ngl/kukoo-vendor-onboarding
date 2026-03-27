@@ -199,21 +199,17 @@ export default function MerchantForm() {
           <div className="border-b pb-6">
             <h2 className="text-xl font-semibold text-[#1A3A6B] mb-4">Compliance & Legal</h2>
             <div className="space-y-4">
-              {['food', 'grocery', 'fresh_meat'].includes(category) && (
-                <>
-                  <div>
-                    <Label htmlFor="fssaiNumber">FSSAI License Number *</Label>
-                    <Input {...register('fssai.number')} id="fssaiNumber" placeholder="14 digits" />
-                    {errors.fssai?.number && <span className="text-red-500 text-sm">{errors.fssai.number.message}</span>}
-                  </div>
+              <div>
+                <Label htmlFor="fssaiNumber">FSSAI License Number</Label>
+                <Input {...register('fssai.number')} id="fssaiNumber" placeholder="14 digits" />
+                {errors.fssai?.number && <span className="text-red-500 text-sm">{errors.fssai.number.message}</span>}
+              </div>
 
-                  <div>
-                    <Label htmlFor="fssaiExpiry">FSSAI Expiry Date *</Label>
-                    <Input {...register('fssai.expiryDate')} id="fssaiExpiry" type="date" />
-                    {errors.fssai?.expiryDate && <span className="text-red-500 text-sm">{errors.fssai.expiryDate.message}</span>}
-                  </div>
-                </>
-              )}
+              <div>
+                <Label htmlFor="fssaiExpiry">FSSAI Expiry Date</Label>
+                <Input {...register('fssai.expiryDate')} id="fssaiExpiry" type="date" />
+                {errors.fssai?.expiryDate && <span className="text-red-500 text-sm">{errors.fssai.expiryDate.message}</span>}
+              </div>
 
               <div>
                 <Label htmlFor="gst">GST Number</Label>
