@@ -19,8 +19,8 @@ export default function MerchantTable() {
   const [filtered, setFiltered] = useState<Merchant[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [selectedMerchant, setSelectedMerchant] = useState<Merchant | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -44,11 +44,11 @@ export default function MerchantTable() {
       );
     }
 
-    if (categoryFilter) {
+    if (categoryFilter && categoryFilter !== 'all') {
       result = result.filter(m => m.category === categoryFilter);
     }
 
-    if (statusFilter) {
+    if (statusFilter && statusFilter !== 'all') {
       result = result.filter(m => m.status === statusFilter);
     }
 
@@ -82,8 +82,8 @@ export default function MerchantTable() {
           <SelectTrigger className="max-w-xs">
             <SelectValue placeholder="Filter by category" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="">All Categories</SelectItem>
+          <SelectContent position="popper" className="bg-white z-50">
+            <SelectItem value="all">All Categories</SelectItem>
             <SelectItem value="food">Food</SelectItem>
             <SelectItem value="grocery">Grocery</SelectItem>
             <SelectItem value="fresh_meat">Fresh Meat</SelectItem>
@@ -95,8 +95,8 @@ export default function MerchantTable() {
           <SelectTrigger className="max-w-xs">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="">All Statuses</SelectItem>
+          <SelectContent position="popper" className="bg-white z-50">
+            <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
