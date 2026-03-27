@@ -115,9 +115,9 @@ export default function MerchantSlideOver({ merchant, isEditing, onClose, onRefr
               {formData.category === 'food' && (
                 <div>
                   <Label>Sub-Category</Label>
-                  <Select value={formData.subCategory || ''} onValueChange={(value) => {
+                  <Select value={(formData.subCategory?.[0]) || ''} onValueChange={(value) => {
                     const subCategoryValue = value as 'juice' | 'biryani' | 'snacks' | 'breakfast' | 'desserts' | 'chinese' | 'south_indian';
-                    setFormData({ ...formData, subCategory: subCategoryValue });
+                    setFormData({ ...formData, subCategory: [subCategoryValue] });
                   }}>
                     <SelectTrigger>
                       <SelectValue />
